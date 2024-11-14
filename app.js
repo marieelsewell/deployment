@@ -15,6 +15,10 @@ if (!libraryWrapper || !inputTitle || !inputAuthor || !inputGenre || !inputRead 
 
 let editId = null;
 
+const apiUrl = window.location.protocol === 'file:'
+  ? 'apiUrl' // Local API server during development
+  : ''; // Production API
+
 function saveBookToServer() {
     // QUESTION FOR LORA: what does ncodeURIComponent do?
     let data = "title=" + encodeURIComponent(inputTitle.value);
@@ -24,10 +28,10 @@ function saveBookToServer() {
     data += "&is_read=" + encodeURIComponent(inputRead.value);
     data += "&rating=" + encodeURIComponent(inputRating.value);
 
-    let URL = "http://localhost:8080/library";
+    let URL = "apiUrl/library";
     let method = "POST";
     if(editId) {
-        URL = "http://localhost:8080/library/" + editId;
+        URL = "apiUrl/library/" + editId;
         method = "PUT";
     }
 
@@ -107,7 +111,7 @@ function addBook(data) {
 
 function loadBooksFromServer() {
     console.log("Entered load function");
-    fetch("http://localhost:8080/library")
+    fetch("apiUrl/library")
     .then(function(response) {
         response.json().then(function(data){
             console.log(data);
@@ -123,7 +127,7 @@ saveBookButton.onclick = saveBookToServer;
 loadBooksFromServer();
 
 function deleteBookFromServer(id) {
-    let URL = "http://localhost:8080/library/" + id;
+    let URL = "apiUrl/library/" + id;
 
     fetch(URL, {
         method: "DELETE"
