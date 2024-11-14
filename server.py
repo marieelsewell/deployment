@@ -66,25 +66,6 @@ def delete_book(book_id):
     db.delete(book_id)
     return "Deleted", 200, {"Access-Control-Allow-Origin": "*"}
 
-@app.route("/users", methods=["POST"])
-def create_user():
-    print("The request data is: ", request.form)
-    first = request.form["first_name"]
-    last = request.form["last_name"]
-    email = request.form["email"]
-    password = request.form["password"]
-    db = LibraryDB("library_db.db")
-    # encrypt password
-    
-    # check if duplicate email
-    if db.get_user_by_email(email):
-        return f"User with email {email} already exists", 422, {"Access-Control-Allow-Origin" : "*"}
-    else:
-        db.create(first, last, email, password)
-        return "User Created", 201, {"Access-Control-Allow-Origin" : "*"}
-    
-   
-
 def run():
     app.run(port=8080)
 

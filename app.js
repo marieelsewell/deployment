@@ -9,47 +9,11 @@ let inputRead = document.querySelector("#input-boolean");
 let inputRating = document.querySelector("#input-rating");
 let saveBookButton = document.querySelector("#save-book-button");
 
-let inputFirstName = document.querySelector("#input-first-name");
-let inputLastName = document.querySelector("#input-last-name");
-let inputEmail = document.querySelector("#input-email");
-let inputPassword = document.querySelector("#input-password");
-let saveUserButton = document.querySelector("#save-user-button");
-
-let inputEmailLogin = document.querySelector("#input-email-login");
-let inputPasswordLogin = document.querySelector("#input-password-login");
-let loginButton = document.querySelector("#login-button");
-
 if (!libraryWrapper || !inputTitle || !inputAuthor || !inputGenre || !inputRead || !inputRating || !saveBookButton) {
     console.error("Error: One or more required DOM elements are missing.");
 }
 
 let editId = null;
-
-function saveLoginToServer() {
-    let data = "email=" + encodeURIComponent(inputEmailLogin.value);
-    data += "&password=" + encodeURIComponent(inputPasswordLogin.value);
-
-    let URL = "http://localhost:8080/session/auth";
-    let method = "POST";
-
-    fetch(URL, {
-        method: method,
-        body: data,
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        }
-    }).then(function(response) {
-        console.log("User Logged In!", response);
-        if (response.status == 201) {
-            alert("Success, you can log in.")
-        } else {
-            alert("Unable to sign up with that email")
-        }
-    })
-
-    inputEmailLogin.value = "";
-    inputPasswordLogin.value = "";
-}
 
 function saveBookToServer() {
     // QUESTION FOR LORA: what does ncodeURIComponent do?
@@ -86,36 +50,6 @@ function saveBookToServer() {
     inputRead.value = "";
     inputRating.value = "";
     editId = null;
-}
-
-function saveUserToServer() {
-    let data = "first_name=" + encodeURIComponent(inputFirstName.value);
-    data += "&last_name=" + encodeURIComponent(inputLastName.value);
-    data += "&email=" + encodeURIComponent(inputEmail.value);
-    data += "&password=" + encodeURIComponent(inputPassword.value);
-
-    let URL = "http://localhost:8080/users";
-    let method = "POST";
-
-    fetch(URL, {
-        method: method,
-        body: data,
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        }
-    }).then(function(response) {
-        console.log("New User Saved!", response);
-        if (response.status == 201) {
-            alert("Success, you can log in.")
-        } else {
-            alert("Unable to sign up with that email")
-        }
-    })
-
-    inputFirstName.value = "";
-    inputLastName.value = "";
-    inputEmail.value = "";
-    inputPassword.value = "";
 }
 
 function addBook(data) {
@@ -185,9 +119,7 @@ function loadBooksFromServer() {
     });
 }
 
-saveBookButton.onclick = saveBookToServer;
-saveUserButton.onclick = saveUserToServer;  
-
+saveBookButton.onclick = saveBookToServer;       
 loadBooksFromServer();
 
 function deleteBookFromServer(id) {

@@ -56,16 +56,3 @@ class LibraryDB:
     def close(self):
        self.connection.close()
        return True
-    
-    def create_user(self, first, last, email, password):
-        data = [first, last, email, password]
-        #add a new user to our db
-        self.cursor.execute("INSERT INTO users(first, last, email, password)VALUES(?,?,?,?)",data)
-        self.connection.commit()
-        return True
-    
-    def get_user_by_email(self, email):
-        data = [email]
-        self.cursor.execute("SELECT * FROM users WHERE email = ?", data)
-        user = self.cursor.fetchone()
-        return user
